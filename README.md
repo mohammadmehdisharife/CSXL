@@ -1,2 +1,2 @@
-# MRT 
-this is a Mobile Runtime
+# CSXL
+Command Script Execution Language
