@@ -1,1 +1,6 @@
-PRINT "hello world iam mohammad mehdi shrife"
+PRINT Hello World
+
+SHELL ls
+PRINT Test
+
+
