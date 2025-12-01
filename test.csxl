@@ -1,4 +1,6 @@
 PRINT Hello World
 
+INT number 12345
 SHELL ls
+
 PRINT End of program
