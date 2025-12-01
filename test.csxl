@@ -1,6 +1,4 @@
 PRINT Hello World
 
 SHELL ls
-PRINT Test
-
-
+PRINT End of program
