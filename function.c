@@ -9,7 +9,19 @@ void print_function(char *args, int number_line) {
   strtok(args, " ");
 
   while ((arg = strtok(NULL, " ")) != NULL) {
-    printf("%s ", arg);
+    if (arg[0] == '$') {
+      int type = exist_variable(arg + 1);
+      if (type == -1) {
+        printf("ERROR: %s is not a variable",arg + 1);
+        exit(1);
+      } else if (type == 0) {
+        printf("%d ", load_int(arg + 1));
+      }else if (type == 1) {
+        printf("%s ", load_str(arg + 1));
+      }
+    } else {
+      printf("%s ", arg);
+    }
   }
   printf("\n");
 }

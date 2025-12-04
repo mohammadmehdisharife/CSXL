@@ -2,12 +2,12 @@
 
 PRINT Hello World
 
+STR name mohammad
+PRINT $name
+
 INT age 19
-STR str one 
-STR strin two
-STR string three
-STR strings four
-INT number 458
+PRINT $age
+
 SHELL ls
 
 PRINT End of program

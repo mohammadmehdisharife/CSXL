@@ -22,6 +22,11 @@ extern node_t *tail;
 void add_int(int value,char *name);
 void add_str(char *value,char *name);
 
+int exist_variable(char *name);
+int load_int(char *name);
+char* load_str(char *name);
+
+// just for test
 void print_memory();
 
 #endif

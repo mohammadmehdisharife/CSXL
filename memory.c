@@ -23,8 +23,33 @@ int exist_variable(char *name) {
   return -1;
 }
 
+int load_int(char *name) {
+  node_t *temp = head;
+  int value;
+  while(temp != NULL) {
+    if (strcmp(temp->name, name) == 0) {
+      value = temp->data.int_value;
+    }
+    temp = temp->next;
+  }
+  return value;
+}
+
+char* load_str(char *name) {
+  node_t *temp = head;
+  char *value;
+  while(temp != NULL) {
+    if (strcmp(temp->name, name) == 0) {
+      value = temp->data.str_value;
+    }
+    temp = temp->next;
+  }
+  return value;
+}
+
+
 void add_int(int value, char *name) {
-  if (exist_variable(name) == -1) {
+  if (exist_variable(name) != -1) {
     printf("variable %s befor is exist\n",name);
     exit(1);
   }
@@ -48,7 +73,7 @@ void add_int(int value, char *name) {
 }
 
 void add_str(char *value, char *name) {
-  if (exist_variable(name) == -1) {
+  if (exist_variable(name) != -1) {
     printf("variable %s befor is exist\n",name);
     exit(1);
   }
