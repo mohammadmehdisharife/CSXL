@@ -8,12 +8,16 @@ node_t *tail = NULL;
 
 int exist_variable(char *name) {
   node_t *temp = head;
-  int location = 0;
+  int type = -1; // int = 0, str = 1, not_exist = -1
   while(temp != NULL) {
     if (strcmp(temp->name, name) == 0) {
-      return location;
+      if (temp->type == INT_TYPE) {
+        return 0;
+      } 
+      else if (temp->type == STR_TYPE) {
+        return 1;
+      }
     }
-    location++;
     temp = temp->next;
   }
   return -1;
