@@ -4,26 +4,67 @@
 #include <stdlib.h>
 #include <string.h>
 
-void print_function(char *args, int number_line) {
-  char *arg;
-  strtok(args, " ");
+char* make_string(char *args, int number_line) {
+  char *string = NULL;
+  char *token;
+  while ((token = strtok(NULL, " ")) != NULL) {
 
-  while ((arg = strtok(NULL, " ")) != NULL) {
-    if (arg[0] == '$') {
-      int type = exist_variable(arg + 1);
+    if (token[0] == '$') {
+      int type = exist_variable(token + 1);
+
       if (type == -1) {
-        printf("ERROR: %s is not a variable",arg + 1);
+        printf("ERROR");
         exit(1);
-      } else if (type == 0) {
-        printf("%d ", load_int(arg + 1));
-      }else if (type == 1) {
-        printf("%s ", load_str(arg + 1));
       }
-    } else {
-      printf("%s ", arg);
+      else if (type == 0) {
+        int int_value = load_int(token + 1);
+        char value[20];
+        sprintf(value, "%d", int_value);
+        if (string == NULL) {
+          string = realloc(string, strlen(value) + 1);
+          strcpy(string, value);
+          strcat(string, " ");
+        }
+        else {
+          string = realloc(string, strlen(value) + 1);
+          strcat(string, value);
+          strcat(string, " ");
+        }
+      }
+      else if (type == 1) {
+        char *value = load_str(token + 1);
+        if (string == NULL) {
+          string = realloc(string, strlen(value) + 1);
+          strcpy(string, value);
+          strcat(string, " ");
+        }
+        else {
+          string = realloc(string, strlen(value) + 1);
+          strcat(string, value);
+          strcat(string, " ");
+        }
+      } 
+    } 
+
+    else {
+      if (string == NULL) {
+        string = realloc(string, strlen(token) + 1);
+        strcpy(string, token);
+        strcat(string, " ");
+      } else {
+        string = realloc(string, strlen(string) + strlen(token) + 1);
+        strcat(string, token);
+        strcat(string, " ");
+      }
     }
+
   }
-  printf("\n");
+  return string;
+}
+
+void print_function(char *args, int number_line) {
+  strtok(args, " ");
+  printf("%s\n",make_string(args,number_line));
 }
 
 void shell_function(char *args, int number_line) {
