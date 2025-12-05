@@ -1,8 +1,11 @@
 #include "./function.h"
 #include "./memory.h"
+#include "./log.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
+#include <limits.h>
 
 char* make_string(char *args, int number_line)
 {
@@ -14,8 +17,7 @@ char* make_string(char *args, int number_line)
             int type = exist_variable(token + 1);
 
             if (type == -1) {
-                printf("ERROR");
-                exit(1);
+                print_error("variable is not exist.", number_line);
             } else if (type == 0) {
                 int int_value = load_int(token + 1);
                 char value[20];
@@ -75,12 +77,49 @@ void shell_function(char *args, int number_line)
 void int_function(char *args, int number_line)
 {
     char *name;
+    char *value_str;
     int value;
-    strtok(args, " ");
+    
+    char *token = strtok(args, " ");
+    
     name = strtok(NULL, " ");
-    value = atoi(strtok(NULL, " "));
+    if (name == NULL) {
+        print_error("Syntax: INT <name> <value>", number_line);
+        return;
+    }
+    
+    if (name[0] == '$') {
+        print_error("Variable name cannot start with '$'", number_line);
+        return;
+    }
+    
+    value_str = strtok(NULL, "");
+    if (value_str == NULL) {
+        print_error("INT: Value is required", number_line);
+        return;
+    }
+    
+    while (*value_str == ' ') value_str++;
+    
+    if (strlen(value_str) > 9) {
+        print_error("Value must be a valid integer",number_line);
+    }
+
+    char *endptr;
+    value = strtol(value_str, &endptr, 10);
+    
+    if (endptr == value_str || *endptr != '\0') {
+        print_error("Value must be a valid integer", number_line);
+        return;
+    }
+    
+    errno = 0;
+    if (errno == ERANGE) {
+        print_error("Number is too large or too small", number_line);
+        return;
+    }
+    
     add_int(value, name);
-    // print_memory();
 }
 
 void str_function(char *args, int number_line)
