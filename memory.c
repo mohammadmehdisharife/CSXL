@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "./log.h"
 
 node_t *head = NULL;
 node_t *tail = NULL;
@@ -52,8 +53,8 @@ char* load_str(char *name)
 
 void add_int(int value, char *name)
 {
-    if (exist_variable(name) != -1) {
-        printf("variable %s befor is exist\n",name);
+    if (exist_variable(name) != -1) { 
+        print_error("variable befor is exist.",0);
         exit(1);
     }
     if (head == NULL) {
@@ -78,7 +79,7 @@ void add_int(int value, char *name)
 void add_str(char *value, char *name)
 {
     if (exist_variable(name) != -1) {
-        printf("variable %s befor is exist\n",name);
+        print_error("variable befor is exist.",0);
         exit(1);
     }
     if (head == NULL) {
