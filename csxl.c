@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
             number_line++;
             continue;
         }
-        if (strcmp(function, "#") == 0) {
+        if (strcmp(function, "#") == 0 || function[0] == '#') {
             number_line++;
             continue;
         }
