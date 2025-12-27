@@ -21,6 +21,11 @@ void print_function(char *args, int number_line)
     }
 }
 
+void newline_function(int number_line)
+{
+    printf("\n");
+}
+
 void shell_function(char *args, int number_line)
 {
     char *shell_cmd = strtok(args, " ");
@@ -112,7 +117,10 @@ void execute_command(char *function, char *args, int number_line)
         int_function(args, number_line);
     } else if (strcmp(function, "STR") == 0) {
         str_function(args, number_line);
-    } else {
+    } else if (strcmp(function, "NEW_LINE") == 0) {
+        newline_function(number_line);
+    }
+    else {
         print_error("Unknown function.",number_line);
         exit(1);
     }
