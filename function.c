@@ -350,7 +350,7 @@ void execute_command(char *function, char *args, int number_line)
     } else if (strcmp(function, "STR") == 0) {
         str_function(args, number_line);
     } else {
-        printf("\"%s\" is not a function | line <%d>\n", function, number_line);
+        print_error("Unknown function.",number_line);
         exit(1);
     }
 }
