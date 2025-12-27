@@ -18,7 +18,7 @@ char* make_string(char *args, int number_line)
     if (args != NULL) {
         input = strdup(args);
         if (input == NULL) {
-            print_error("Memory allocation failed", number_line);
+            print_error("Memory allocation failed.", number_line);
             return NULL;
         }
         token = strtok(input, " ");
@@ -36,7 +36,7 @@ char* make_string(char *args, int number_line)
             int type = exist_variable(token + 1);
 
             if (type == -1) {
-                print_error("variable is not exist.", number_line);
+                print_error("Variable is not exist.", number_line);
                 if (args != NULL) free(input);
                 free(string);
                 return NULL;
@@ -63,7 +63,7 @@ char* make_string(char *args, int number_line)
             } else if (type == 1) {
                 char *value = load_str(token + 1);
                 if (value == NULL) {
-                    print_error("Failed to load string variable", number_line);
+                    print_error("Failed to load string variable.", number_line);
                     if (args != NULL) free(input);
                     free(string);
                     return NULL;
@@ -132,7 +132,7 @@ int make_int(char *args, int number_line)
             int type = exist_variable(token + 1);
 
             if (type == -1) {
-                print_error("variable is not exist.", number_line);
+                print_error("Variable is not exist.", number_line);
                 return 0;
             } else if (type == 0) {
                 result = load_int(token + 1);
@@ -141,7 +141,7 @@ int make_int(char *args, int number_line)
                 while (*value_str == ' ') value_str++;
 
                 if (strlen(value_str) > 9) {
-                    print_error("Value must be a valid integer",number_line);
+                    print_error("Value must be a valid integer.",number_line);
                     return 0;
                 }
 
@@ -150,18 +150,18 @@ int make_int(char *args, int number_line)
                 result = strtol(value_str, &endptr, 10);
 
                 if (endptr == value_str || *endptr != '\0') {
-                    print_error("Value must be a valid integer", number_line);
+                    print_error("Value must be a valid integer.", number_line);
                     return 0;
                 }
 
                 if (errno == ERANGE) {
-                    print_error("Number is too large or too small", number_line);
+                    print_error("Number is too large or too small.", number_line);
                     return 0;
                 }
             }
         } else {
             if (strlen(token) > 9) {
-                print_error("Value must be a valid integer",number_line);
+                print_error("Value must be a valid integer.",number_line);
                 return 0;
             }
 
@@ -170,18 +170,18 @@ int make_int(char *args, int number_line)
             result = strtol(token, &endptr, 10);
 
             if (endptr == token || *endptr != '\0') {
-                print_error("Value must be a valid integer", number_line);
+                print_error("Value must be a valid integer.", number_line);
                 return 0;
             }
 
             if (errno == ERANGE) {
-                print_error("Number is too large or too small", number_line);
+                print_error("Number is too large or too small.", number_line);
                 return 0;
             }
         }
         is_first_token = 0;
     } else {
-        print_error("No value provided", number_line);
+        print_error("No value provided.", number_line);
         return 0;
     }
 
@@ -190,7 +190,7 @@ int make_int(char *args, int number_line)
             int type = exist_variable(token + 1);
 
             if (type == -1) {
-                print_error("variable is not exist.", number_line);
+                print_error("Variable is not exist.", number_line);
                 return result;
 
             } else if (type == 0) {
@@ -201,7 +201,7 @@ int make_int(char *args, int number_line)
                 while (*value_str == ' ') value_str++;
 
                 if (strlen(value_str) > 9) {
-                    print_error("Value must be a valid integer",number_line);
+                    print_error("Value must be a valid integer.",number_line);
                     return result;
                 }
 
@@ -210,18 +210,18 @@ int make_int(char *args, int number_line)
                 current_value = strtol(value_str, &endptr, 10);
 
                 if (endptr == value_str || *endptr != '\0') {
-                    print_error("Value must be a valid integer", number_line);
+                    print_error("Value must be a valid integer.", number_line);
                     return result;
                 }
 
                 if (errno == ERANGE) {
-                    print_error("Number is too large or too small", number_line);
+                    print_error("Number is too large or too small.", number_line);
                     return result;
                 }
             }
         } else {
             if (strlen(token) > 9) {
-                print_error("Value must be a valid integer",number_line);
+                print_error("Value must be a valid integer.",number_line);
                 return result;
             }
 
@@ -230,12 +230,12 @@ int make_int(char *args, int number_line)
             current_value = strtol(token, &endptr, 10);
 
             if (endptr == token || *endptr != '\0') {
-                print_error("Value must be a valid integer", number_line);
+                print_error("Value must be a valid integer.", number_line);
                 return result;
             }
 
             if (errno == ERANGE) {
-                print_error("Number is too large or too small", number_line);
+                print_error("Number is too large or too small.", number_line);
                 return result;
             }
         }
