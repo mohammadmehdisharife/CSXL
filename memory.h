@@ -2,16 +2,16 @@
 #define MEMORY_H
 
 struct node {
-  char *name;
+    char *name;
 
-  enum { INT_TYPE, STR_TYPE } type;
-  
-  union {
-    int int_value;
-    char str_value[100];
-  } data;
+    enum { INT_TYPE, STR_TYPE } type;
 
-  struct node *next;
+    union {
+        int int_value;
+        char str_value[100];
+    } data;
+
+    struct node *next;
 };
 
 typedef struct node node_t;
