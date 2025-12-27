@@ -1,4 +1,4 @@
-rm -rf build
+rm -rf build csxl.zip csxl.tar.gz
 mkdir build
 
 # linux
@@ -13,5 +13,3 @@ i686-w64-mingw32-gcc -Oz csxl.c function.c memory.c log.c -o ./build/csxl_win32.
 # create archive for release
 zip -r csxl.zip build/
 tar -czf csxl.tar.gz build/
-rar a csxl.rar build/
-7z a csxl.7z build/
