@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSXL Language Documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #0f172a, #1e40af);
+            color: white;
+            padding: 40px 20px;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 15px rgba(15, 23, 42, 0.15);
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            font-size: 2.5rem;
+            color: #3b82f6;
+        }
+        
+        .logo-text h1 {
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .logo-text p {
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        
+        .language-info {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .search-box {
+            margin: 25px 0;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            background-color: white;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            font-size: 1.2rem;
+        }
+        
+        .functions-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        
+        .function-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .function-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+            border-color: #3b82f6;
+        }
+        
+        .function-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .function-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .function-syntax {
+            font-family: 'Courier New', monospace;
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .function-details {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.5s ease;
+            background-color: #fefefe;
+        }
+        
+        .function-card.active .function-details {
+            padding: 25px;
+            max-height: 1000px;
+        }
+        
+        .function-description {
+            margin-bottom: 20px;
+            color: #475569;
+            font-size: 1.05rem;
+        }
+        
+        .parameter-list{
+            margin-bottom: 20px;
+        }
+        
+        .parameter-list h4, .example h4 {
+            color: #1e293b;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #cbd5e1;
+        }
+        
+        .parameter {
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+        
+        .param-name {
+            font-weight: bold;
+            color: #dc2626;
+        }
+        
+        .param-desc {
+            color: #4b5563;
+        }
+        
+        .example-code {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+        
+        .toggle-icon {
+            color: #64748b;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .function-card.active .toggle-icon {
+            transform: rotate(180deg);
+            color: #3b82f6;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #64748b;
+            font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            
+            .functions-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+            font-size: 1.1rem;
+            grid-column: 1 / -1;
+            display: none;
+        }
+        
+        .functions-count {
+            margin-bottom: 20px;
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>CSXL Programming Language</h1>
+                        <p>An interpreted language with extensive capabilities</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="language-info">
+                <p>CSXL is an interpreted programming language designed for educational purposes and lightweight script development. It features a simple and understandable structure, making it easy to learn and use.</p>
+            </div>
+        </div>
+    </header>
+    
+    <main class="container">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search CSXL functions...">
+        </div>
+        
+        <div class="functions-count">
+            <span id="count">8</span> functions available
+        </div>
+        
+        <div class="functions-container" id="functionsList"></div>
+        
+        <div class="no-results" id="noResults">
+            <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 15px;"></i>
+            <p>No functions found matching your search.</p>
+        </div>
+    </main>
+    
+    <footer class="container">
+        <div class="footer">
+            <p>CSXL Language Documentation | Version 0.0.6 | Last Updated: January 2026</p>
+            <p>This documentation is dynamically generated and searchable.</p>
+        </div>
+    </footer>
+
+    <script>
+        const csxlFunctions = [
+            {
+                name: "PRINT",
+                syntax: "PRINT text",
+                description: "This function prints the received value to standard output. It can accept any data type.",
+                parameters: [
+                    {name: "text", description: "The data to be printed. Can be of any type with $ simbol or raw text."}
+                ],
+                example: `PRINT hello world\nSTR name mohammad\nPRINT my name is $name`
+            },
+            {
+                name: "INT",
+                syntax: "INT name value",
+                description: "This function generates numeric variables.",
+                parameters: [
+                    {name: "name", description: "name of variable"},
+                    {name: "value", description: "number value of variable"}
+                ],
+                example: `INT age 19\nPRINT my age is: $age`
+            },
+            {
+                name: "STR",
+                syntax: "STR name value",
+                description: "This function generates string variables.",
+                parameters: [
+                    {name: "name", description: "name of variable"},
+                    {name: "value", description: "string value of variable"}
+                ],
+                example: `STR name mohammad\nPRINT my name is: $name`
+            },
+            {
+                name: "NEW_LINE",
+                syntax: "NEW_LINE",
+                description: "This function prints a blank line.",
+                parameters: [
+                    {name: "No", description: "This function has no parameters."},
+                ],
+                example: `NEW_LINE`
+            },
+            {
+                name: "SHELL",
+                syntax: "SHELL command",
+                description: "This function executes commands within the system's native command line.",
+                parameters: [
+                    {name: "command", description: "A comment is a string that you can even create using the $ symbol."},
+                ],
+                example: `SHELL echo test shell\nSTR command echo test shell\nSHELL $command`
+            },
+        ];
+
+        let activeFunction = null;
+
+        function renderFunctions(functions) {
+            const container = document.getElementById('functionsList');
+            container.innerHTML = '';
+            
+            functions.forEach((func, index) => {
+                const functionCard = document.createElement('div');
+                functionCard.className = 'function-card';
+                if (index === 0) {
+                    functionCard.classList.add('active');
+                    activeFunction = 0;
+                }
+                
+                functionCard.innerHTML = `
+                    <div class="function-header">
+                        <div>
+                            <div class="function-name">${func.name}</div>
+                            <div class="function-syntax">${func.syntax}</div>
+                        </div>
+                        <div class="toggle-icon">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="function-details">
+                        <div class="function-description">${func.description}</div>
+                        
+                        <div class="parameter-list">
+                            <h4>Parameters</h4>
+                            ${func.parameters.map(param => `
+                                <div class="parameter">
+                                    <span class="param-name">${param.name}</span>: 
+                                    <span class="param-desc">${param.description}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="example">
+                            <h4>Example</h4>
+                            <div class="example-code">${func.example}</div>
+                        </div>
+                    </div>
+                `;
+                
+                functionCard.addEventListener('click', () => {
+                    if (activeFunction === index) {
+                        functionCard.classList.remove('active');
+                        activeFunction = null;
+                    } else {
+                        document.querySelectorAll('.function-card').forEach(card => {
+                            card.classList.remove('active');
+                        });
+                        functionCard.classList.add('active');
+                        activeFunction = index;
+                    }
+                });
+                
+                container.appendChild(functionCard);
+            });
+            
+            document.getElementById('count').textContent = functions.length;
+        }
+
+        function filterFunctions() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filteredFunctions = csxlFunctions.filter(func => 
+                func.name.toLowerCase().includes(searchTerm) ||
+                func.description.toLowerCase().includes(searchTerm) ||
+                func.syntax.toLowerCase().includes(searchTerm)
+            );
+            
+            if (filteredFunctions.length === 0) {
+                document.getElementById('noResults').style.display = 'block';
+            } else {
+                document.getElementById('noResults').style.display = 'none';
+            }
+            
+            renderFunctions(filteredFunctions);
+            
+            if (filteredFunctions.length > 0) {
+                document.querySelectorAll('.function-card')[0].classList.add('active');
+                activeFunction = 0;
+            } else {
+                activeFunction = null;
+            }
+        }
+
+        document.getElementById('searchInput').addEventListener('input', filterFunctions);
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderFunctions(csxlFunctions);
+        });
+    </script>
+</body>
+</html>
