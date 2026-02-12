@@ -35,12 +35,6 @@ int main(int argc, char *argv[])
             continue;
         }
 
-        /*
-        printf("DEBUG: buffer='%s'\n", buffer);
-        printf("DEBUG: args='%s'\n", args);
-        printf("DEBUG: function='%s'\n", function);
-        */
-
         execute_command(function, args, number_line);
 
         number_line++;

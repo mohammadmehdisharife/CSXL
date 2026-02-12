@@ -1,57 +1,78 @@
 # Compiler flags
-CCFLAGS = -Oz
+CFLAGS = -Oz
 
 # Source files
-SRC = csxl.c function.c utils.c memory.c log.c
+SRC = function.c utils.c memory.c log.c
+MAIN_SRC = csxl.c
+REPL_SRC = repl.c
 
 # Build directory
 BUILD_DIR = ./build
 
 # Targets
-LINUX_TARGET = $(BUILD_DIR)/csxl
-WIN32_TARGET = $(BUILD_DIR)/csxl_win32.exe
-WIN64_TARGET = $(BUILD_DIR)/csxl_win64.exe
+LINUX_MAIN = $(BUILD_DIR)/csxl
+LINUX_REPL = $(BUILD_DIR)/repl
+WIN32_MAIN = $(BUILD_DIR)/csxl_win32.exe
+WIN32_REPL = $(BUILD_DIR)/repl_win32.exe
+WIN64_MAIN = $(BUILD_DIR)/csxl_win64.exe
+WIN64_REPL = $(BUILD_DIR)/repl_win64.exe
 
 # Default target
-all: build_linux build_win32 build_win64
+all: linux win32 win64
 
-# Linux build
-build_linux: $(LINUX_TARGET)
+# Linux builds
+linux: $(LINUX_MAIN) $(LINUX_REPL)
 
-$(LINUX_TARGET): $(SRC)
+$(LINUX_MAIN): $(MAIN_SRC) $(SRC)
 	@mkdir -p $(BUILD_DIR)
-	gcc $(CCFLAGS) $(SRC) -o $(LINUX_TARGET)
+	gcc $(CFLAGS) $(MAIN_SRC) $(SRC) -o $@
 
-# Windows 32-bit build
-build_win32: $(WIN32_TARGET)
-
-$(WIN32_TARGET): $(SRC)
+$(LINUX_REPL): $(REPL_SRC) $(SRC)
 	@mkdir -p $(BUILD_DIR)
-	i686-w64-mingw32-gcc $(CCFLAGS) $(SRC) -o $(WIN32_TARGET)
+	gcc $(CFLAGS) $(REPL_SRC) $(SRC) -o $@
 
-# Windows 64-bit build
-build_win64: $(WIN64_TARGET)
+# Windows 32-bit builds
+win32: $(WIN32_MAIN) $(WIN32_REPL)
 
-$(WIN64_TARGET): $(SRC)
+$(WIN32_MAIN): $(MAIN_SRC) $(SRC)
 	@mkdir -p $(BUILD_DIR)
-	x86_64-w64-mingw32-gcc $(CCFLAGS) $(SRC) -o $(WIN64_TARGET)
+	i686-w64-mingw32-gcc $(CFLAGS) $(MAIN_SRC) $(SRC) -o $@
+
+$(WIN32_REPL): $(REPL_SRC) $(SRC)
+	@mkdir -p $(BUILD_DIR)
+	i686-w64-mingw32-gcc $(CFLAGS) $(REPL_SRC) $(SRC) -o $@
+
+# Windows 64-bit builds
+win64: $(WIN64_MAIN) $(WIN64_REPL)
+
+$(WIN64_MAIN): $(MAIN_SRC) $(SRC)
+	@mkdir -p $(BUILD_DIR)
+	x86_64-w64-mingw32-gcc $(CFLAGS) $(MAIN_SRC) $(SRC) -o $@
+
+$(WIN64_REPL): $(REPL_SRC) $(SRC)
+	@mkdir -p $(BUILD_DIR)
+	x86_64-w64-mingw32-gcc $(CFLAGS) $(REPL_SRC) $(SRC) -o $@
 
 # Clean
 clean:
-	rm -rf $(BUILD_DIR) *.zip *.tar*
+	rm -rf $(BUILD_DIR)
 
 # Format code
 format:
-	astyle --style=linux *.c
-	astyle --style=linux *.h
+	astyle --style=linux *.c *.h
 
 # Help
 help:
-	@echo "Available targets:"
-	@echo "  all          - Build all platforms (default)"
-	@echo "  build_linux  - Build for Linux"
-	@echo "  build_win32  - Build for Windows 32-bit"
-	@echo "  build_win64  - Build for Windows 64-bit"
-	@echo "  clean        - Remove build files and archives"
-	@echo "  format       - Format source code with astyle"
-	@echo "  help         - Show this help message"
+	@echo "Targets:"
+	@echo "  all, linux, win32, win64"
+	@echo "  clean, format"
+	@echo ""
+	@echo "Output:"
+	@echo "  ./build/csxl           - Linux interpreter"
+	@echo "  ./build/repl           - Linux REPL"
+	@echo "  ./build/csxl_win32.exe - Win32 interpreter"
+	@echo "  ./build/repl_win32.exe - Win32 REPL"
+	@echo "  ./build/csxl_win64.exe - Win64 interpreter"
+	@echo "  ./build/repl_win64.exe - Win64 REPL"
+
+.PHONY: all linux win32 win64 clean format help
