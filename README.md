@@ -1,6 +1,8 @@
 # CSXL Script Execution Language
 A lightweight scripting language for command execution and automation.
 
+![logo](./logo.png)
+
 ## Features
 - Simple, clean syntax
 - Cross-platform compatibility  
